@@ -1,9 +1,6 @@
 {
     "version": 2,
     "rewrites": [
-      {
-        "source": "/proxy/:match*",
-        "destination": "http://localhost:81/:match*"
-      }
+        { "source": "/proxy/:match*", "destination": "http://www.google.com/:match*" }
     ]
   }
