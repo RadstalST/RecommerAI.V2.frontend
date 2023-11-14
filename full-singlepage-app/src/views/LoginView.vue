@@ -62,7 +62,7 @@ export default {
             // }
             // application/x-www-form-urlencoded
             const response = await axios.post(
-                '/api/v2/auth/token', 
+                '/backend/v2/auth/token', 
                 payload,{
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
