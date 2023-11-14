@@ -16,8 +16,8 @@ export default defineConfig({
   // add local dev server api endpoint
   server: {
     proxy: {
-      '/proxy': {
-        target: 'http://localhost:81',
+      '/proxy/': {
+        target: 'http://localhost:80',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/proxy/, '')
       }
