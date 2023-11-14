@@ -1,5 +1,5 @@
 {
     "rewrites": [
-        { "source": "/backend/:match*", "destination": "http://localhost:81/:match*" }
+        { "source": "/recommerapi/:match*", "destination": "http://localhost:81/:match*" }
     ]
 }

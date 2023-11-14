@@ -37,7 +37,7 @@ export default {
     mounted() {
         //get user info
         const response = axios.get(
-            "/backend/v2/users/me",
+            "/recommerapi/v2/users/me",
             {
                 headers: {
                 'Authorization': 'Bearer ' + this.access_token

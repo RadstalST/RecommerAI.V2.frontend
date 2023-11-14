@@ -80,7 +80,7 @@ export default {
                 password: this.form.password
             }
             console.log("payload",payload)
-            const response = await axios.post('/backend/v2/users/create',{
+            const response = await axios.post('/recommerapi/v2/users/create',{
                 email: this.form.email,
                 password: this.form.password
             }).then((response) => {
