@@ -1,5 +1,7 @@
 <script setup>
+import axios from 'axios';
 import { RouterLink, RouterView } from 'vue-router'
+
 </script>
 <template>
     
@@ -20,13 +22,19 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="hidden w-full md:block md:w-auto" id="navbar-default">
       <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
         <li>
-            <RouterLink to="/" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</RouterLink>
+            <RouterLink to="/" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-black  dark:text-white md:dark:text-blue-500" aria-current="page">Home</RouterLink>
         </li>
         <li>
-            <RouterLink to="/about" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">About</RouterLink>
+            <RouterLink to="/about" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-black  dark:text-white md:dark:text-blue-500" aria-current="page">About</RouterLink>
         </li>
-        <li>
-            <RouterLink to="/login" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Login</RouterLink>
+        <li v-if="isLogin()">
+            <RouterLink to="/dashboard" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-black  dark:text-white md:dark:text-blue-500" aria-current="page">Dashboard</RouterLink>
+        </li>
+        <li v-if="isLogin()">
+            <a v-on:click="handleLogout" class="block py-2 px-3 text-white bg-black rounded-lg" aria-current="page">logout</a>
+        </li>
+        <li v-else>
+            <RouterLink to="/login" class="block py-2 px-3 text-white bg-black rounded-lg" aria-current="page">Login</RouterLink>
         </li>
       </ul>
     </div>
@@ -34,3 +42,49 @@ import { RouterLink, RouterView } from 'vue-router'
 </nav>
 
 </template>
+
+<script>
+    export default {
+        name: 'NavBar',
+        components: {
+        },
+        data() {
+            return {
+                user: null,
+                access_token: localStorage.getItem('access_token'),
+            }
+        },
+        methods: {
+            isLogin(){
+                return this.access_token != null
+            },
+            handleLogout(){
+                localStorage.removeItem('access_token')
+                window.location.href = '/login'
+            }
+        },
+        mounted() {
+            if (localStorage.getItem('access_token') == null) {
+                return
+            }
+            const response = axios.get(
+                "/api/v2/users/me",
+                {
+                    headers: {
+                    'Authorization': 'Bearer ' + this.access_token
+                    }
+                }
+            ).then((response) => {
+                console.log("response",response)
+                if (response.status === 200) {
+                    this.success = true
+                    this.user = response.data
+                }
+            }).catch((error) => {
+                console.log("error",error)
+                if (error.response.status === 401) {
+                }
+            })
+        }
+    }
+</script>
