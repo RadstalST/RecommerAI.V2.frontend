@@ -1,6 +1,6 @@
 {
     "version": 2,
     "redirects": [
-        { "source": "/proxy/:match*", "destination": "http:/localhost/:match*","permanent": true}
+        { "source": "/proxy/:match*", "destination": "http://localhost/:match*","permanent": true}
     ]
   }
