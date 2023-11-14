@@ -1,9 +1,0 @@
-{
-    "version": 2,
-    "redirects": [
-        { "source": "/proxy/:match*", "destination": "http:/localhost:81/:match*","permanent": true}
-    ],
-    "rewrites": [
-        { "source": "/proxy/:match*", "destination": "http:/localhost:81/:match*" }
-    ]
-  }
