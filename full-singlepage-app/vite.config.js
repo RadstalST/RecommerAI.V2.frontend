@@ -16,10 +16,10 @@ export default defineConfig({
   // add local dev server api endpoint
   server: {
     proxy: {
-      '/recommerapi': {
+      '/proxy': {
         target: 'http://localhost:81',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/recommerapi/, '')
+        rewrite: path => path.replace(/^\/proxy/, '')
       }
     }
   }
