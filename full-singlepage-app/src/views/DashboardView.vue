@@ -6,6 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import axios from 'axios'
 
 import  SearchDocsTable  from '../components/SearchDocsTable.vue'
+import PersonaComponent from '../components/PersonaComponent.vue';
 
 if (localStorage.getItem('access_token') == null) {
     window.location.href = '/login'
@@ -20,6 +21,11 @@ if (localStorage.getItem('access_token') == null) {
         <h3>{{access_token}}</h3>
         <h2> This is user</h2>
         <h3>{{user}}</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-6"><PersonaComponent/></div>
+        <div class="col-6"></div>
     </div>
 
     <SearchDocsTable/>
