@@ -5,6 +5,8 @@ import { RouterLink, RouterView } from 'vue-router'
 
 import axios from 'axios'
 
+import  SearchDocsTable  from '../components/SearchDocsTable.vue'
+
 if (localStorage.getItem('access_token') == null) {
     window.location.href = '/login'
 }
@@ -19,6 +21,8 @@ if (localStorage.getItem('access_token') == null) {
         <h2> This is user</h2>
         <h3>{{user}}</h3>
     </div>
+
+    <SearchDocsTable/>
 </template>
 
 <script>
