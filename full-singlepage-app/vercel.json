@@ -1,6 +1,6 @@
 {
     "version": 2,
     "redirects": [
-        { "source": "/proxy/:match*", "destination": "http://44.198.181.100//:match*","permanent": true}
+        { "source": "/proxy/:match*", "destination": "http://44.198.181.100/:match*","permanent": true}
     ]
   }
