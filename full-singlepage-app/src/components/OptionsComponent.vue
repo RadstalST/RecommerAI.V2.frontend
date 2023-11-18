@@ -48,55 +48,56 @@ export default {
     const isLoading = ref(false); 
     console.log(props.searchInput);
 
-    const fetchOptions = () => {
+    // const fetchOptions = () => {
+    //   try {
+    //     options.value = ['sample1', 'sample2', 'sample3'];
+    //     product_type.value = "sample_product_type";
+    //     updateOptionRows();
+    //   } catch (error) {
+    //     console.error('Fetching options failed:', error);
+    //   } finally {
+    //     isLoading.value = false; // Set loading state to false
+    //     emitProductType();
+    //   }
+    // };
+
+    const fetchOptions = async () => {
       try {
-        options.value = ['sample1', 'sample2', 'sample3'];
-        product_type.value = 'sample_product_type';
-        updateOptionRows();
+        if (localStorage.getItem('access_token') == null) {
+            return
+        }
+        // Construct the URL with the query parameter
+        const url = '/proxy/v2/AI/search/variations/';
+        isLoading.value = true;
+        const response = await axios.get(url, {
+          params: {
+            desire: props.searchInput,
+          },
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('access_token') ,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        // Check if the response status is OK (2xx)
+        if (response.status >= 200 && response.status < 300) {
+          const data = response.data;
+          options.value = data.list_variations;
+          product_type.value = data.product_type;
+          console.log(url)
+          console.log(options.value);
+          // Now, data will contain the response from the URL with the 'desire' parameter
+          // You can access the 'desire' parameter value in the response if it's included.
+          updateOptionRows();
+        } else {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
       } catch (error) {
         console.error('Fetching options failed:', error);
       } finally {
         isLoading.value = false; // Set loading state to false
       }
     };
-
-    // const fetchOptions = async () => {
-    //   try {
-    //     if (localStorage.getItem('access_token') == null) {
-    //         return
-    //     }
-    //     // Construct the URL with the query parameter
-    //     const url = '/proxy/v2/AI/search/variations/';
-    //     isLoading.value = true;
-    //     const response = await axios.get(url, {
-    //       params: {
-    //         desire: props.searchInput,
-    //       },
-    //       headers: {
-    //         Authorization: 'Bearer ' + localStorage.getItem('access_token') ,
-    //         'Content-Type': 'application/json',
-    //       },
-    //     });
-
-    //     // Check if the response status is OK (2xx)
-    //     if (response.status >= 200 && response.status < 300) {
-    //       const data = response.data;
-    //       options.value = data.list_variations;
-    //       product_type.value = data.product_type;
-    //       console.log(url)
-    //       console.log(options.value);
-    //       // Now, data will contain the response from the URL with the 'desire' parameter
-    //       // You can access the 'desire' parameter value in the response if it's included.
-    //       updateOptionRows();
-    //     } else {
-    //       throw new Error(`HTTP error! status: ${response.status}`);
-    //     }
-    //   } catch (error) {
-    //     console.error('Fetching options failed:', error);
-    //   } finally {
-    //     isLoading.value = false; // Set loading state to false
-    //   }
-    // };
 
 
     const updateOptionRows = () => {
@@ -127,7 +128,6 @@ export default {
 
     watch(selectedOptions, emitOptions);
     watch(customInput, emitOptions);
-    watch(product_type, emitProductType); // Add watcher for product_type
 
     onMounted(fetchOptions);
 
