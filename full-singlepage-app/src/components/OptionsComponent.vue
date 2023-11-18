@@ -5,10 +5,11 @@
       <label class="form-check-label" :for="option">{{ option }}</label>
     </div>
   </div> -->
-  <div v-if="isLoading" class="loading-animation">
+  <div v-if="isLoading" class="loading-animation text-center">
       <!-- Add your loading animation here -->
-      Loading...
-  </div>
+      <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      <div>Loading Options...</div>
+    </div>
   <div v-else>
     <div v-for="(row, rowIndex) in optionRows" :key="rowIndex" class="row mb-3">
       <div class="col" v-for="(option, index) in row" :key="option">
@@ -29,7 +30,7 @@ import { toRefs, ref, computed, watch, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios'
 export default {
-  emits: ['updateOptions'],
+  emits: ['updateOptions','updateProductType'],
   props: {
     searchInput: String,
   },
@@ -42,46 +43,60 @@ export default {
     const selectedOptions = ref([]);
     const customInput = ref('');
     const options = ref([]);
+    const product_type = ref('');
     const optionRows = ref([]);
     const isLoading = ref(false); 
     console.log(props.searchInput);
 
-    const fetchOptions = async () => {
+    const fetchOptions = () => {
       try {
-        if (localStorage.getItem('access_token') == null) {
-            return
-        }
-        // Construct the URL with the query parameter
-        const url = '/proxy/v2/AI/search/variations/';
-        isLoading.value = true;
-        const response = await axios.get(url, {
-          params: {
-            desire: props.searchInput,
-          },
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('access_token') ,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        // Check if the response status is OK (2xx)
-        if (response.status >= 200 && response.status < 300) {
-          const data = response.data;
-          options.value = data.list_variations;
-          console.log(url)
-          console.log(options.value);
-          // Now, data will contain the response from the URL with the 'desire' parameter
-          // You can access the 'desire' parameter value in the response if it's included.
-          updateOptionRows();
-        } else {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        options.value = ['sample1', 'sample2', 'sample3'];
+        product_type.value = 'sample_product_type';
+        updateOptionRows();
       } catch (error) {
         console.error('Fetching options failed:', error);
       } finally {
         isLoading.value = false; // Set loading state to false
       }
     };
+
+    // const fetchOptions = async () => {
+    //   try {
+    //     if (localStorage.getItem('access_token') == null) {
+    //         return
+    //     }
+    //     // Construct the URL with the query parameter
+    //     const url = '/proxy/v2/AI/search/variations/';
+    //     isLoading.value = true;
+    //     const response = await axios.get(url, {
+    //       params: {
+    //         desire: props.searchInput,
+    //       },
+    //       headers: {
+    //         Authorization: 'Bearer ' + localStorage.getItem('access_token') ,
+    //         'Content-Type': 'application/json',
+    //       },
+    //     });
+
+    //     // Check if the response status is OK (2xx)
+    //     if (response.status >= 200 && response.status < 300) {
+    //       const data = response.data;
+    //       options.value = data.list_variations;
+    //       product_type.value = data.product_type;
+    //       console.log(url)
+    //       console.log(options.value);
+    //       // Now, data will contain the response from the URL with the 'desire' parameter
+    //       // You can access the 'desire' parameter value in the response if it's included.
+    //       updateOptionRows();
+    //     } else {
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+    //   } catch (error) {
+    //     console.error('Fetching options failed:', error);
+    //   } finally {
+    //     isLoading.value = false; // Set loading state to false
+    //   }
+    // };
 
 
     const updateOptionRows = () => {
@@ -104,16 +119,15 @@ export default {
     const emitOptions = () => {
       emit('updateOptions', combinedOptions.value);
     };
-
+    const emitProductType = () => {
+      emit('updateProductType', product_type.value); // Emit the product_type value
+    };
     watch(selectedOptions, emitOptions);
     watch(customInput, emitOptions);
 
-    watch(selectedOptions, () => {
-      emitOptions();
-    });
-    watch(customInput, () => {
-      emitOptions();
-    });
+    watch(selectedOptions, emitOptions);
+    watch(customInput, emitOptions);
+    watch(product_type, emitProductType); // Add watcher for product_type
 
     onMounted(fetchOptions);
 
@@ -124,6 +138,7 @@ export default {
       customInput,
       options,
       optionRows,
+      product_type,
       combinedOptions,
       isLoading,
     };

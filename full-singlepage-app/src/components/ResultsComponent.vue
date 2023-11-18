@@ -3,7 +3,7 @@
     <div v-for="product in products" :key="product.id" class="card mb-4">
       <div class="row g-0">
         <!-- Product Image & Name -->
-        <div class="col-md-3">
+        <div class="col-md-5">
           <img :src="product.image" class="img-fluid product-img" alt="...">
           <div class="card-body">
             <h6 class="card-title">{{ product.name }}</h6>
@@ -12,32 +12,32 @@
         </div>
 
         <!-- Comparison (Pros/Cons) -->
-        <div class="col-md-6 pros-cons-list">
+        <div class="col-md-4 pros-cons-list">
           <div class="card-body">
             <div class="row">
-              <h6 class="card-title">Pros</h6>
+              <h4 class="card-title">Pros</h4>
               <ul class="list-group list-group-flush">
-                <li v-for="(pro, index) in product.comparison.pros.pros" :key="index" class="list-group-item">{{ pro }}</li>
+                <li v-for="(pro, index) in product.comparison.pros.pros" :key="index" class="list-group-item">- {{ pro }}</li>
               </ul>
             </div>
             <div class="row">
-              <h6 class="card-title">Cons</h6>
+              <h4 class="card-title">Cons</h4>
               <ul class="list-group list-group-flush">
-                <li v-for="(con, index) in product.comparison.cons.cons" :key="index" class="list-group-item">{{ con }}</li>
+                <li v-for="(con, index) in product.comparison.cons.cons" :key="index" class="list-group-item">- {{ con }}</li>
               </ul>
             </div>
           </div>
         </div>
 
         <!-- Sales Channel -->
-        <div class="col-md-3">
+        <div class="col-md-3 sales-channel">
           <div class="card-body">
-            <h6 class="card-title">Sales Channel</h6>
+            <h4 class="card-title">Sales Channel</h4>
             <ul class="list-group list-group-flush sales-channel-list">
               <li v-for="channel in product.salesChannel.saleslist" :key="index" class="list-group-item d-flex justify-content-between align-items-center">
-                <a :href="channel.link">
-                  {{ channel.name }}
-                  <span class="badge bg-primary rounded-pill">{{ channel.price }}</span>
+                <a :href="channel.link" class="channel-link">
+                  <span class="channel-name">{{ channel.name }}</span>
+                  <span class="channel-price">{{ channel.price }}</span>
                 </a>
               </li>
             </ul>
@@ -226,6 +226,38 @@ export default {
   padding-bottom: 20px;
 }
 
+.card .card-title{
+  font-weight: bold;
+}
+
+.card .sales-channel{
+  background: rgba(101, 59, 217, .65);
+  color: white;
+  border-radius: 10px;
+  padding: 10px;  
+} 
+
+.card a.channel-link {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 10px;
+  color: white;
+  border-bottom: 1px solid #e0e0e0; /* Add a super light grey line */
+}
+
+.card a.channel-link:hover {
+  color: hsl(256, 68%, 90%) !important;
+  transition: 0.2s;
+}
+
+.card .sales-channel .channel-link .channel-name {
+  text-align: left;
+}
+
+.card .sales-channel .channel-link .channel-price {
+  text-align: right;
+}
 
 
 .pros-cons-list {
