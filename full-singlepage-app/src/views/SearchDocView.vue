@@ -1,18 +1,12 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import axios from 'axios'
-
-</script>
-
 <template>
   <div class="d-flex flex-column h-full">
     <!-- Rest of your App.vue template -->
 
-
-    <div v-if = "showResults" class = "row recommend">
+    <div v-if="showResults" class="row recommend">
       <h3 class="text-center mb-5 recommend">We recommend</h3>
     </div>
 
+    <!-- Pass the productType ref as a prop to SearchComponent -->
     <SearchComponent
       v-model="searchValues"
       ref="searchComponentRef"
@@ -20,6 +14,8 @@ import axios from 'axios'
       :hasOptions="hasOptions"
       :isSearchInitiated="isSearchInitiated"
       :showSummaryOnly="showResults"
+      :productType="productType"
+      @productTypeChange="handleProductTypeChange"
     />
 
     <!-- Results Component -->
@@ -44,7 +40,6 @@ import axios from 'axios'
     </div>
   </div>
 </template>
-
 
 <script>
 import { ref } from 'vue';
@@ -101,19 +96,18 @@ const searchAgain = () => {
   showResults.value = true;
 
 
-//   // API
-//   fetch("/api/search?query=" + searchInput.value)
-//     .then(response => response.json())
-//     .then(data => {
-//       searchResults.value = data.products; 
-//       showResults.value = true;
-//     });
-  
+  // API
+  /*fetch("/api/search?query=" + searchInput.value)
+    .then(response => response.json())
+    .then(data => {
+      searchResults.value = data.products; 
+      showResults.value = true;
+    });
+  */
 };
+
 </script>
 
-
 <style scope>
-
 
 </style>
