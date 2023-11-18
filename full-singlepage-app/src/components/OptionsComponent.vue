@@ -1,28 +1,6 @@
 
-<template>
-  <!-- <div class="d-flex flex-row">
-    <div v-for="option in options" :key="option" class="form-check p-2">
-      <input v-model="selectedOptions" :value="option" class="form-check-input" type="checkbox" :id="option">
-      <label class="form-check-label" :for="option">{{ option }}</label>
-    </div>
-  </div> -->
-  <div v-for="(row, rowIndex) in optionRows" :key="rowIndex" class="row mb-3">
-    <div class="col" v-for="(option, index) in row" :key="option">
-      <div class="form-check">
-        <input v-model="selectedOptions" :value="option" class="form-check-input" type="checkbox" :id="`option-${rowIndex}-${index}`">
-        <label class="form-check-label" :for="`option-${rowIndex}-${index}`">{{ option }}</label>
-      </div>
-    </div>
-  </div>
-  <div class="input-group mb-3">
-    <input v-model="customInput" type="text" class="form-control" placeholder="Input custom details (optional)">
-  </div>
-
-
-</template>
-
 <script>
-import { toRefs, ref, computed, watch  } from 'vue';
+import { toRefs, ref, computed, watch, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
 export default {
@@ -38,8 +16,7 @@ export default {
     const { searchInput } = toRefs(props);
     const selectedOptions = ref([]);
     const customInput = ref('');
-    const options = ref(['4K Resolution', 'HDMI Ports', 'OLED Display', 'Built-in Wi-Fi',  /*...other options...*/]);
-    // const options = ref([]);
+    const options = ref([]);
     console.log(props.searchInput);
 
     const optionRows = computed(() => {
@@ -50,7 +27,6 @@ export default {
       }
       return rows;
     });
-
 
     const combinedOptions = computed(() => {
       let allOptions = [...selectedOptions.value];
@@ -74,49 +50,47 @@ export default {
       emitOptions();
     });
 
-    // // Function to call the API and fetch options
-    // const fetchOptions = async () => {
-    //   try {
-    //     const response = await fetch('/api/options', {
-    //       method: 'GET', // or 'POST'
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         // Any other headers that your API needs
-    //       },
-    //       // If you're using POST, you will need to send a body:
-    //       // body: JSON.stringify({ search: searchInput.value }),
-    //     });
-    //     if (!response.ok) {
-    //       throw new Error(`HTTP error! status: ${response.status}`);
-    //     }
-    //     const data = await response.json();
-    //     optionsList.value = data.options; // Assuming the response contains an "options" array
-    //   } catch (error) {
-    //     console.error('Fetching options failed:', error);
-    //   }
-    // };
 
-    // // Fetch options when the component is mounted
-    // onMounted(fetchOptions);
+    onMounted(async () => {
+      try {
+        
+        // Construct the URL with the query parameter
+        const url = '/v2/AI/search/variations/';
 
-    // Re-fetch options whenever the searchInput changes
-    // watch(searchInput, (newValue) => {
-    //   console.log('searchInput changed to:', newValue);
-    //   fetchOptions();
-    // });
+        const response = await axios.get(url, {
+          params: {
+            desire: props.searchInput,
+          },
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
+        // Check if the response status is OK (2xx)
+        if (response.status >= 200 && response.status < 300) {
+          const data = response.data;
+          // Now, data will contain the response from the URL with the 'desire' parameter
+          // You can access the 'desire' parameter value in the response if it's included.
+        } else {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Fetching options failed:', error);
+      }
+    });
 
     return {
-      searchInput,
+      hasOptions,
       selectedOptions,
       customInput,
+      options,
       optionRows,
       combinedOptions,
-      emitOptions
     };
-  }
+  },
 };
 </script>
+
 <style scoped>
 /* Additional styles if needed */
 </style>

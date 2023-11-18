@@ -6,6 +6,7 @@ import App from '../App.vue'
 
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import SearchDocView from '../views/SearchDocView.vue'
 import SearchComponent from '../components/SearchComponent.vue';
 import OptionsComponent from '../components/OptionsComponent.vue';
 import ResultsComponent from '../components/ResultsComponent.vue';
@@ -17,7 +18,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: SearchDocView,
       props: true,
       children: [
         { path: 'search', component: SearchComponent },
@@ -51,7 +52,13 @@ const router = createRouter({
     {
       path: '/searchdoc/:id',
       name: 'searchdoc',
-      component: () => import('../views/SearchDocView.vue')
+      component: () => import('../views/SearchDocView.vue'),
+      props: true,
+      children: [
+        { path: 'search', component: SearchComponent },
+        { path: 'options', component: OptionsComponent },
+        { path: 'results', component: ResultsComponent }
+      ] 
     }
   ]
 })
