@@ -155,6 +155,11 @@ a:hover, a:focus {
   background-color: lighten(#643ADA, 35%);
   border-color: lighten(#643ADA, 35%);
 }
+
+
+.loading-animation {
+  /* Add your loading animation styles here */
+}
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
