@@ -46,7 +46,6 @@ export default {
     const product_type = ref('');
     const optionRows = ref([]);
     const isLoading = ref(false); 
-    console.log(props.searchInput);
 
     // const fetchOptions = () => {
     //   try {
@@ -96,6 +95,7 @@ export default {
         console.error('Fetching options failed:', error);
       } finally {
         isLoading.value = false; // Set loading state to false
+        emitProductType();
       }
     };
 
