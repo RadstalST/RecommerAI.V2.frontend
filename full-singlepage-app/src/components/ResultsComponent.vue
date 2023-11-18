@@ -1,5 +1,24 @@
 <template>
+
   <div>
+    <div class="card recommend mb-4 ">
+      <div class="row g-0"> 
+        <div class="col-md-12">
+          <h3 class="mb-3 text-center text-xl product-name">We recommend <b>{{ recommendation.productname }}</b>.</h3>
+        </div>
+      </div>
+      <div class="row details">
+        <div class="col-md-6">
+          <h3 class="card-title">Proposal</h3> 
+          <p>{{ recommendation.suggestions }}</p>
+        </div>
+        <div class="col-md-6">
+          <h3 class="card-title">Comparison</h3> 
+          <p>{{ recommendation.comparison }}</p>
+        </div>
+      </div>
+    </div>
+
     <div v-for="product in products" :key="product.id" class="card mb-4">
       <div class="row g-0">
         <!-- Product Image & Name -->
@@ -35,7 +54,7 @@
             <h4 class="card-title">Sales Channel</h4>
             <ul class="list-group list-group-flush sales-channel-list">
               <li v-for="channel in product.salesChannel.saleslist" :key="index" class="list-group-item d-flex justify-content-between align-items-center">
-                <a :href="channel.link" class="channel-link">
+                <a :href="channel.link" class="channel-link d-flex flex-column">
                   <span class="channel-name">{{ channel.name }}</span>
                   <span class="channel-price">{{ channel.price }}</span>
                 </a>
@@ -52,7 +71,7 @@
 
 
 <script lang="ts">
-import { ref, watch, onMounted, toRefs } from 'vue';
+import { watch, onMounted, ref, toRefs, PropType } from 'vue';
 import axios from 'axios'
 // import ProductDetails from './ProductDetails.vue';
 
@@ -63,8 +82,9 @@ export default {
   props: {
     searchValues: {
       type: Object as PropType<{ searchInput: string; summary: string, product_type: string }>,
-      default: () => ({ searchInput: '', summary: '', product_type: '' })
+      default: () => ({ searchInput: '', summary: '', product_type: '' }),
     },
+    recommendation: Object
   },
   setup(props) {
     const { searchValues } = toRefs(props);
@@ -93,92 +113,161 @@ export default {
     // watch(searchValues, fetchProducts);
     console.log('ResultComponent');
     console.log(searchValues.value);
+    const mockupRecommend = {"item":{"recommendation": {
+          "productname": "Jabra Elite 8 Active",
+          "comparison": "Jabra Elite 8 Active is best for all kinds of workouts and can be used beyond the gym. It is a true wireless earbud. Anker Soundcore Sport X10 is recommended for sports and is known for its sturdy, sweatproof, and tangle-proof features. It maintains a strong connection with your device throughout your workout. Sony LinkBuds is a fully open true wireless headphone that is popular among runners and bikers. It also features noise canceling capabilities.",
+          "suggestions": "Given your requirements for a sports headphone and a Bluetooth headphone for working out, all three options could potentially meet your needs. However, the Jabra Elite 8 Active stands out as it is specifically designed for all kinds of workouts and can be used beyond the gym. It is also a true wireless earbud, which means you won't have to deal with any wires during your workout."
+        },
+        "productlists": {
+          "products": [
+            {
+              "name": "Jabra Elite 8 Active",
+              "description": "The Best Headphones for All Kinds of Workouts. It is a true wireless earbud that can be used beyond the gym."
+            },
+            {
+              "name": "Anker Soundcore Sport X10",
+              "description": "Recommended sports headphones. It is known for its sturdy, sweatproof, and tangle-proof features."
+            },
+            {
+              "name": "Sony LinkBuds - Fully Open True Wireless Headphones",
+              "description": "It is a fully open true wireless headphone that is popular among runners and bikers."
+            }
+          ]
+        }
+      }
+    };
 
-    const mockupData = [
+const mockupData = [
       {
-        "name": "Airpods Pro 2",
-        "image": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MTJV3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1694014871985",
+        "name": "Jabra Elite 8 Active",
+        "image": "https://www.cnet.com/a/img/resize/c509cb4f09bfbeeb66057711c679e385cff3e238/hub/2023/08/30/8ce6c1da-3894-4a47-8a1e-d1a7b8781c14/jabra-elite-8-earbuds-2.jpg?auto=webp&fit=crop&height=1200&width=1200",
         "comparison": {
           "pros": {
-            "name": "Airpods Pro 2",
+            "name": "Jabra Elite 8 Active",
             "pros": [
-              "Up to 2x more Active Noise Cancellation",
-              "Transparency mode to hear the world around you",
-              "All-new Adaptive Audio intelligently tailors noise"
-            ]
+      "Good for workouts and daily use",
+      "Comfortable and well-built",
+      "Rated IP68 for dust and water resistance",
+      "Rugged design",
+      "Delivers punchy audio",
+      "Ideal exercise companions",
+      "Offers a boost in ANC performance",
+      "Excellent sound and great battery life"]
+    
           },
           "cons": {
-            "name": "Airpods Pro 2",
+            "name": "Jabra Elite 8 Active",
             "cons": [
-              "Lack of EQ adjustments",
-              "User-reported issues",
-              "User-reported problems"
-            ]
+      "ANC is not on par with Apple, Bose, or Sony flagship earbuds",
+      "Sound quality out of the box was considered terrible by some users"
+    ]
           }
         },
         "salesChannel": {"saleslist":[
           {
-            "name":"Verizon",
-            "price":"$199.99",
-            "link":"https://www.verizon.com/products/apple-airpods-pro-2nd-generation?sku=sku5600070"
-          },{
-            "name":"CDW",
-            "price":"$301.99",
-            "link":"https://www.cdw.com/product/airpods-pro-2nd-generation-with-magsafe-case-usb-u2011c/7595937?cm_ven=acquirgy&cm_cat=google&cm_pla=NA-NA-Apple_HE&cm_ite=7595937"
-          },{
-            "name":"UScellular",
-            "price":"$249.99",
-            "link":"https://www.uscellular.com/accessories/apple-airpods-pro-2nd-generation-usb-c"
+            "name":"Lazada",
+            "price":"฿6,990.00 - ฿7,690.00",
+            "link":"https://www.lazada.co.th/shop-headphones-headsets/jabra/"
           }
         ]},
         "details": {
-          "name": "AirPods Pro (2nd generation) with MagSafe Case (USB‐C)",
-          "detail": "The AirPods Pro 2nd generation is a product of Apple, priced around $199.99 to $301.99. It comes with a MagSafe Case and a USB-C. It has a high rating of 4.8 with about 9000 reviews. Key features include its compatibility with MagSafe and its high-quality sound performance."
+          "name": "Jabra Elite 8 Active",
+          "detail": "The Jabra Elite 8 Active is a Bluetooth Sports True Wireless Earbuds with Secure in-Ear Fit for All-Day Comfort. It features Military Grade Durability and Active Noise Cancellation. It is priced at $199.99."
         }
       },
       {
-        "name": "Airpods Pro 2",
-        "image": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MTJV3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1694014871985",
+        "name": "Anker Soundcore Sport X10",
+        "image": "https://www.digitaltrends.com/wp-content/uploads/2022/06/Anker-Soundcore-Sport-X10-front.jpg?p=1",
         "comparison": {
           "pros": {
-            "name": "Airpods Pro 2",
+            "name": "Anker Soundcore Sport X10",
             "pros": [
-              "Up to 2x more Active Noise Cancellation",
-              "Transparency mode to hear the world around you",
-              "All-new Adaptive Audio intelligently tailors noise"
-            ]
+      "Quality noise cancellation",
+      "Bold sound",
+      "Customizable fit",
+      "Fitness-friendly design",
+      "Comfort",
+      "Good battery life",
+      "Sturdy build",
+      "Active noise cancellation",
+      "Transparency mode"
+    ]
           },
           "cons": {
-            "name": "Airpods Pro 2",
+            "name": "Anker Soundcore Sport X10",
             "cons": [
-              "Lack of EQ adjustments",
-              "User-reported issues",
-              "User-reported problems"
-            ]
+    "There seems to be a bug that Anker has ignored, which is considered unprofessional",
+    "The lack of touch controls is a surprise and could be seen as a disadvantage"
+  ]
           }
         },
         "salesChannel": {"saleslist":[
-          {
-            "name":"Verizon",
-            "price":"$199.99",
-            "link":"https://www.verizon.com/products/apple-airpods-pro-2nd-generation?sku=sku5600070"
-          },{
-            "name":"CDW",
-            "price":"$301.99",
-            "link":"https://www.cdw.com/product/airpods-pro-2nd-generation-with-magsafe-case-usb-u2011c/7595937?cm_ven=acquirgy&cm_cat=google&cm_pla=NA-NA-Apple_HE&cm_ite=7595937"
-          },{
-            "name":"UScellular",
-            "price":"$249.99",
-            "link":"https://www.uscellular.com/accessories/apple-airpods-pro-2nd-generation-usb-c"
-          }
-        ]},
-        "details": {
-          "name": "AirPods Pro (2nd generation) with MagSafe Case (USB‐C)",
-          "detail": "The AirPods Pro 2nd generation is a product of Apple, priced around $199.99 to $301.99. It comes with a MagSafe Case and a USB-C. It has a high rating of 4.8 with about 9000 reviews. Key features include its compatibility with MagSafe and its high-quality sound performance."
-        }
+      {
+        "name": "Verizon",
+        "price": "2,275 THB",
+        "link": "https://www.verizon.com/products/soundcore-by-anker-sport-x10-true-wireless-headphones?sku=sku6000514"
       },
+      {
+        "name": "Abt Electronics & Appliances",
+        "price": "2,275 THB",
+        "link": "https://www.abt.com/Soundcore-by-Anker-Sport-X10-True-Wireless-Workout-Earbuds-in-Black-A3961Z11/p/199089.html?utm_source=google&utm_medium=sc_organic&utm_campaign=surfaces%20across%20google&utm_source=google&utm_medium=sc_organic&utm_campaign=surfaces%20across%20google"
+      },
+      {
+        "name": "AliExpress.com",
+        "price": "1,835 THB",
+        "link": "https://s.click.aliexpress.com/deep_link.htm?aff_short_key=UneMJZVf&dl_target_url=https%3A%2F%2Fwww.aliexpress.com%2Fitem%2F3256805896381286.html%3F_randl_currency%3DUSD%26_randl_shipto%3DUS%26src%3Dgoogle"
+      }
+    ]},
+        "details": {
+          "name": "Anker Soundcore Sport X10",
+          "detail": "The Anker Soundcore Sport X10 is a model of wireless Bluetooth 5.2 workout headphones. They feature 6 microphones and noise cancellation technology, unique over-ear hooks that rotate up to 210° for a secure and comfortable fit, and an IPX7-rated waterproof build. The Soundcore app allows customization and includes in-app breathing exercises. They are praised for their powerful, bass-forward sound and noise cancellation capabilities, and are sold at a price of $79."
+        }
+      },{
+        "name": "Sony LinkBuds - Fully Open True Wireless Headphones",
+        "image": "https://m.media-amazon.com/images/I/41nBcPIusdL._AC_UF894,1000_QL80_.jpg",
+        "comparison": {
+          "pros": {
+            "name": "Sony LinkBuds - Fully Open True Wireless Headphones",
+            "pros": [
+      "Truly wireless design",
+      "Open-ear feature for ambient sounds",
+      "Built-in Alexa",
+      "Suitable for sports and mobile phone use"
+    ]
+          },
+          "cons": {
+            "name": "Sony LinkBuds - Fully Open True Wireless Headphones",
+            "cons": [
+      "Truly wireless design",
+      "Open-ear feature for ambient sounds",
+      "Built-in Alexa",
+      "Suitable for sports and mobile phone use"
+    ]
+          }
+        },
+        "salesChannel": {"saleslist":[
+      {
+        "name": "eBay",
+        "price": "$69.99",
+        "link": "https://www.ebay.com/itm/196029320029?chn=ps&mkevt=1&mkcid=28"
+      },
+      {
+        "name": "Sony",
+        "price": "$129.99",
+        "link": "https://electronics.sony.com/audio/headphones/truly-wireless-earbuds/p/wfl900-h"
+      },
+      {
+        "name": "Sony",
+        "price": "$249.99",
+        "link": "https://electronics.sony.com/audio/headphones/all-headphones/p/wfl900uc-h"
+      }
+    ]},
+        "details": {
+          "name": "Sony LinkBuds - Fully Open True Wireless Headphones",
+          "detail": "Sony LinkBuds are true wireless open-ear earbuds designed for sports and mobile phone use. They have a battery life of 5.5 hours and connect via Bluetooth. They feature an open-ring design for ambient sounds and have Alexa built-in."
+        }
+      }
     ];
-
 
 
     // const fetchResult = async () => {
@@ -224,9 +313,12 @@ export default {
 
 
     const products = ref(mockupData);
-    onMounted(fetchResult);
+    const recommendation = ref(mockupRecommend.item.recommendation);
+    console.log(recommendation);
+    // onMounted(fetchResult);
     return {
-      products
+      products,
+      recommendation
     };
   }
 }
@@ -255,7 +347,7 @@ export default {
 }
 
 .card{
-  font-size: 0.8em; 
+  font-size: 1em; 
   padding: 20px;
 }
 
@@ -283,8 +375,8 @@ export default {
 } 
 
 .card a.channel-link {
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
   width: 100%;
   padding-bottom: 10px;
   color: white;
@@ -297,11 +389,12 @@ export default {
 }
 
 .card .sales-channel .channel-link .channel-name {
-  text-align: left;
+  /* text-align: left; */
 }
 
 .card .sales-channel .channel-link .channel-price {
-  text-align: right;
+  /* text-align: right; */
+  font-weight: bold;
 }
 
 
@@ -334,5 +427,19 @@ export default {
 
 .list-group-item a {
   text-decoration: none; /* Remove underline from links */
+}
+
+.card.recommend{
+  background-color: rgba(101, 59, 217, .65);;
+  padding: 2em;
+  border-radius: 10px;
+  color: white;
+}
+
+.card.recommend .product-name{
+  margin: 20px 0;
+}
+.card.recommend .details{
+  border:1px white;
 }
 </style>
