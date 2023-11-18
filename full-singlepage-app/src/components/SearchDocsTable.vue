@@ -6,47 +6,50 @@ import { RouterLink, RouterView } from 'vue-router'
 
 
 <template>
-    <div>
-        <table class="w-full border-2">
-            <thead>
-                <tr>
-                    <th class="px-4 py-2">Title</th>
-                    <th class="px-4 py-2">Author</th>
-                    <th class="px-4 py-2">Created Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="doc in docs" :key="doc.id">
-                    <td class="px-4 py-2">{{ doc.title }}</td>
-                    <td class="px-4 py-2">{{ doc.user_id }}</td>
-                    <td class="px-4 py-2">{{ doc.created_at }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="m-8">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="doc in docs" :key="doc._id">
+                        <td>
+                            <!-- params are not working properly according to the documentation -->
+                            <!-- string concatination is used instead -->
+                            <RouterLink :to="'/searchdoc/'+doc._id">
+                                {{ doc.title }}
+                            </RouterLink>
+                        </td>
+                        <td>{{ doc.user_id }}</td>
+                        <td>{{ doc.created_at }}</td>
+                        
+                    </tr>
+                </tbody>
+            </table>
 
-        <div v-if="docs.length === 0" class="mt-4">No documents found.</div>
+            <div v-if="docs.length === 0" class="mt-4">No documents found.</div>
 
-        <div v-if="loading" class="mt-4">Loading...</div>
+            <div v-if="loading" class="mt-4">Loading...</div>
 
-        <div v-if="error" class="mt-4">{{ error }}</div>
+            <div v-if="error" class="mt-4">{{ error }}</div>
 
-        <div v-if="success" class="mt-4">Documents loaded successfully.</div>
+            <div v-if="success" class="mt-4">Documents loaded successfully.</div>
 
-        <div class="mt-4">
-            <button @click="loadDocuments" class="px-4 py-2 bg-blue-500 text-white rounded">refresh</button>
+            <div class="mt-4">
+                <div class="d-flex justify-content-between">
+                    <button @click="loadDocuments" class="btn btn-primary">Refresh</button>
+                    <div>
+                        <button @click="previousPage" :disabled="currentPage === 1" class="btn btn-primary me-2" :class="{ 'disabled': currentPage === 1 }">Previous</button>
+                        <span class="px-4 py-2">{{ currentPage }}</span>
+                        <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-primary" :class="{ 'disabled': currentPage === totalPages }">Next</button>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- <div class="mt-4">
-            <input type="text" v-model="search" placeholder="Search..." class="px-4 py-2 border border-gray-300 rounded" />
-            <button @click="searchDocuments" class="px-4 py-2 bg-blue-500 text-white rounded">Search</button>
-        </div> -->
-
-        <div class="mt-4">
-            <button @click="previousPage" :disabled="currentPage === 1" class="px-4 py-2 bg-blue-500 text-white rounded" :class="{ 'opacity-50 cursor-not-allowed': currentPage === 1 }">Previous</button>
-            <span class="px-4 py-2">{{ currentPage }}</span>
-            <button @click="nextPage" :disabled="currentPage === totalPages" class="px-4 py-2 bg-blue-500 text-white rounded" :class="{ 'opacity-50 cursor-not-allowed': currentPage === totalPages }">Next</button>
-        </div>
-    </div>
 </template>
 
 

@@ -14,7 +14,7 @@ if (localStorage.getItem('access_token') == null) {
 </script>
 <template>
 
-    <div>
+    <div v-show="false">
         <h1>This is Dashboard</h1>
         <h2> This is token</h2>
         <h3>{{access_token}}</h3>
