@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import App from '../App.vue'
 
-import '../../node_modules/bootstrap/dist/css/bootstrap.css'
-import '../assets/main.css'
+// import '../../node_modules/bootstrap/dist/css/bootstrap.css'
+
 
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'

@@ -47,6 +47,8 @@ import { RouterLink, RouterView } from 'vue-router'
                         <span class="px-4 py-2">{{ currentPage }}</span>
                         <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-primary" :class="{ 'disabled': currentPage === totalPages }">Next</button>
                     </div>
+                    <!-- create button -->
+                    <button @click="handleCreateDoc"> add docs</button>
                 </div>
             </div>
         </div>
@@ -97,6 +99,30 @@ export default {
                 }
             })
 
+        },
+        async handleCreateDoc(){
+
+            const payload = {
+                "title":"test",
+                user_id: 0// will get over ridden by the backend dont worry
+            }
+            let response = await axios.post(
+                "/proxy/v2/searchDoc/",
+                payload,
+                {
+                    headers: {
+                        'Authorization': 'Bearer ' + this.access_token
+                    }
+                }
+
+            ).then((response) => {
+                console.log("response",response)
+                // this.docs = response.data
+                
+            }).catch((error) => {
+                console.log("error",error)
+               
+            })
         },
         searchDocuments() {
             // TODO: Implement logic to search documents based on the search query
