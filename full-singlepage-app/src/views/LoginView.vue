@@ -8,8 +8,8 @@ import { RouterLink, RouterView } from 'vue-router'
         <div class="flex flex-col items-center justify-center">
         <h1 class="text-4xl font-bold mb-4">Login</h1>
         <form class="flex flex-col space-y-4 w-80" id="loginForm">
-            <input autocomplete="on" v-model="form.username" type="text" placeholder="Email" class="border border-gray-300 p-2 rounded-lg" />
-            <input v-model="form.password" type="password" placeholder="Password" class="border border-gray-300 p-2 rounded-lg" />
+            <input autocomplete="on" v-model="form.username" name="recommer_username" type="text" placeholder="Email" class="border border-gray-300 p-2 rounded-lg" />
+            <input v-model="form.password" type="password" name="recommer_password" placeholder="Password" class="border border-gray-300 p-2 rounded-lg" />
             <button @click="HandleOnSubmit" class="bg-blue-500 text-white p-2 rounded-lg" >Login</button>
             <RouterLink to="/signup" class="text-blue-500">Don't have an account? Sign up</RouterLink>
         </form>
