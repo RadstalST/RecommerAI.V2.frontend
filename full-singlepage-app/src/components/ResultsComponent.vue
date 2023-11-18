@@ -53,6 +53,7 @@
 
 <script lang="ts">
 import { ref, watch, onMounted, toRefs } from 'vue';
+import axios from 'axios'
 // import ProductDetails from './ProductDetails.vue';
 
 export default {
@@ -61,8 +62,8 @@ export default {
   // },
   props: {
     searchValues: {
-      type: Object as PropType<{ searchInput: string; summary: string }>,
-      default: () => ({ searchInput: '', summary: '' })
+      type: Object as PropType<{ searchInput: string; summary: string, product_type: string }>,
+      default: () => ({ searchInput: '', summary: '', product_type: '' })
     },
   },
   setup(props) {
@@ -178,8 +179,52 @@ export default {
       },
     ];
 
-    const products = ref(mockupData);
 
+
+    // const fetchResult = async () => {
+    //   try {
+    //     if (localStorage.getItem('access_token') == null) {
+    //         return
+    //     }
+    //     // Construct the URL with the query parameter
+    //     const url = '/proxy/v2/AI/search/productinfodetail/';
+    //     // isLoading.value = true;
+    //     console.log(url);
+    //     const response = await axios.get(url, {
+    //       params: {
+    //         searchid: 'xxxx',
+    //         desire: searchValues.value.searchInput,
+    //         summary: searchValues.value.summary,
+    //         product_type: searchValues.value.product_type
+    //       },
+    //       headers: {
+    //         Authorization: 'Bearer ' + localStorage.getItem('access_token') ,
+    //         'Content-Type': 'application/json',
+    //       },
+    //     });
+
+    //     // Check if the response status is OK (2xx)
+    //     if (response.status >= 200 && response.status < 300) {
+    //       const data = response.data;
+    //       // options.value = data.list_variations;
+    //       // product_type.value = data.product_type;
+    //       // console.log(url)
+    //       console.log(DataTransfer);
+    //       // Now, data will contain the response from the URL with the 'desire' parameter
+    //       // You can access the 'desire' parameter value in the response if it's included.
+    //     } else {
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+    //   } catch (error) {
+    //     console.error('Fetching options failed:', error);
+    //   } finally {
+    //     // isLoading.value = false; // Set loading state to false
+    //   }
+    // };
+
+
+    const products = ref(mockupData);
+    onMounted(fetchResult);
     return {
       products
     };
