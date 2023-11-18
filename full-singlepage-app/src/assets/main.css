@@ -1,4 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 @import './base.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: radial-gradient(circle 400px at 5% 10%,  #8D69E15f 0%, #EECAFF7f 30%, transparent 100%),
+              radial-gradient(circle 400px at 90% 100%,  #8D69E15f 20%, #EECAFF7f 50%,   transparent 100%),
+              #F4F4F4;
+  background-attachment: fixed; /* Makes the background fixed during scroll */
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+
+}
+body {
+  display: flex;
+  place-items: center;
+}
+
+
+
+/* Custom styles for a Bootstrap theme using #643ADA as the primary color */
+
+/* Override Bootstrap primary color */
+:root {
+  --bs-primary: #643ADA;
+  --bs-border-color-translucent:rgba(101, 59, 217, 0.175);
+  --bs-list-group-active-bg:#643ADA;
+  --bs-list-group-active-border-color:#643ADA;
+  --bs-primary-text-emphasis: #422592;
+  --bs-primary-rgb:rgba(101, 59, 217);
+  --bs-bg-opacity:rgba(101, 59, 217, 0.175);
+  --bs-focus-ring-color: rgba(101, 59, 217, 0.175);
+}
+
+/* Buttons */
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-color: var(--bs-primary);
+  --bs-btn-hover-bg: #422592;
+  --bs-btn-hover-border-color: #422592;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #422592;
+  --bs-btn-active-border-color: #422592;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #b4a5df;
+  --bs-btn-disabled-border-color: #b4a5df;
+}
+
+.btn-primary:hover {
+  background-color: darken(var(--bs-primary), 7.5%);
+  border-color: darken(var(--bs-primary), 10%);
+}
+
+/* Button disabled state */
+.btn-primary.disabled, .btn-primary:disabled {
+  background-color: lighten(var(--bs-primary), 25%);
+  border-color: lighten(var(--bs-primary), 25%);
+}
+
+.card{
+  background-color: rgba(256, 256, 256, 0.5);
+}
+
+.list-group{
+  --bs-list-group-active-bg:#643ADA;
+  --bs-list-group-active-border-color:#643ADA;
+}
+
+/* Links */
+a {
+  color: var(--bs-primary);
+}
+
+a:hover, a:focus {
+  color: darken(var(--bs-primary), 15%);
+}
+
+/* Navbar */
+.navbar-light .navbar-nav .nav-link {
+  color: darken(var(--bs-primary), 10%);
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus {
+  color: darken(var(--bs-primary), 25%);
+}
+
+/* Input fields focus color */
+.form-control:focus {
+  border-color: #643ADA;
+  box-shadow: 0 0 0 0.25rem rgba(100, 58, 218, 0.25); /* Adjust the RGBA for the color and transparency you want */
+}
+
+/* Custom checkbox focus color */
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem rgba(100, 58, 218, 0.25);
+}
+
+/* For Bootstrap 4 or earlier, the focus box shadow is applied differently */
+/* This is an example for Bootstrap 4 checkbox focus */
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(100, 58, 218, 0.25);
+}
+
+/* Bootstrap 5 custom checkbox when checked */
+.form-check-input:checked {
+  background-color: #643ADA !important; /* Use important to ensure override */
+  border-color: #643ADA !important; /* Use important to ensure override */
+}
+
+/* Override the background-image with a custom SVG or another method if necessary */
+.form-check-input:checked {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath d='M6.5 10.793l-3.5-3.5L1.793 8.5l4.707 4.707L14.207 5.793l-1.414-1.414z'/%3e%3c/svg%3e");
+}
+
+/* Focus state when checkbox is focused with tab for accessibility */
+.form-check-input:focus {
+  border-color: #643ADA; /* Border color for focus */
+  box-shadow: 0 0 0 0.25rem rgba(100, 58, 218, 0.25); /* Shadow color for focus */
+}
+
+/* For the active (pressed) state */
+.form-check-input:active {
+  background-color: lighten(#643ADA, 35%);
+  border-color: lighten(#643ADA, 35%);
+}
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+
+
+}
+
+
+@media (max-width: 768px) {
+
+
+  /* ... other styles for smaller screens ... */
+}

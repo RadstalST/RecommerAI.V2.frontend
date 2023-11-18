@@ -1,5 +1,15 @@
+import { createApp } from 'vue'
+import App from '../App.vue'
+
+import '../../node_modules/bootstrap/dist/css/bootstrap.css'
+import '../assets/main.css'
+
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import SearchComponent from '../components/SearchComponent.vue';
+import OptionsComponent from '../components/OptionsComponent.vue';
+import ResultsComponent from '../components/ResultsComponent.vue';
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +17,13 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      props: true,
+      children: [
+        { path: 'search', component: SearchComponent },
+        { path: 'options', component: OptionsComponent },
+        { path: 'results', component: ResultsComponent }
+      ] 
     },
     {
       path: '/about',
