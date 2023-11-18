@@ -8,7 +8,11 @@ import NavBar from './components/NavBar.vue';
   <header>
     <NavBar/>
   </header>
-  <div class="center-container">
+
+  <div class="center-container content d-flex flex-column">
+    <div class = "row flex-column">
+      <h1 class="text-center mb-5 logo">Recommer.AI</h1>
+    </div>
     <RouterView />
   </div>
 
@@ -21,4 +25,16 @@ import NavBar from './components/NavBar.vue';
   align-items: center;
   height: 100vh;
 }
+
+.content {
+  max-width: 800px;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: auto; 
+  margin: auto;
+  padding-top: 150px;
+  width: 100%;
+}
+
 </style>

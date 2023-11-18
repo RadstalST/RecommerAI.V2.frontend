@@ -17,16 +17,6 @@ body {
   place-items: center;
 }
 
-.content {
-  max-width: 800px;
-  /* display: flex; */
-  justify-content: center;
-  align-items: center;
-  height: auto; 
-  margin: auto;
-  padding-top: 100px;
-  width: 100%;
-}
 
 #app {
   max-width: 1280px;

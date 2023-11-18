@@ -1,9 +1,12 @@
 <template>
-  <div class="content d-flex flex-column">
+  <div class="d-flex flex-column h-full">
     <!-- Rest of your App.vue template -->
-    <div class = "row flex-column">
-      <h1 class="text-center mb-5 logo">Recommer.AI</h1>
+
+
+    <div v-if = "showResults" class = "row recommend">
+      <h3 class="text-center mb-5 recommend">We recommend</h3>
     </div>
+
     <SearchComponent
       v-model="searchValues"
       ref="searchComponentRef"
