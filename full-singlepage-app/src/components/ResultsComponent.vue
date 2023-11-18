@@ -53,6 +53,8 @@
 
 <script lang="ts">
 import { ref, watch, onMounted, toRefs } from 'vue';
+import axios from 'axios'
+
 // import ProductDetails from './ProductDetails.vue';
 
 export default {
@@ -65,8 +67,37 @@ export default {
       default: () => ({ searchInput: '', summary: '' })
     },
   },
-  setup(props) {
-    const { searchValues } = toRefs(props);
+  async setup(props) {
+	const { searchValues } = toRefs(props);
+	const productlists = [""]
+	const fetchInfo = async() =>{
+		if (localStorage.getItem('access_token') == null) {
+            return
+        }
+        // Construct the URL with the query parameter
+		const url = '/proxy/v2/AI/productinfo/productinfo/';
+		for (var item in productlists ){
+        const response = await axios.get(url, {
+          params: {
+            productModel: props.searchInput,
+          },
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('access_token') ,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        // Check if the response status is OK (2xx)
+        if (response.status >= 200 && response.status < 300) {
+          const data = response.data;
+          result.push()
+
+        } else {
+          throw new Error(`HTTP error! status: ${response.status}`);
+		}  
+		}
+		
+	}
     // const products = ref([]);
 
 
@@ -91,7 +122,8 @@ export default {
     // // Re-fetch products whenever searchValues changes
     // watch(searchValues, fetchProducts);
     console.log('ResultComponent');
-    console.log(searchValues.value);
+	console.log(searchValues.value);
+	onMounted()
 
     const mockupData = [
       {
