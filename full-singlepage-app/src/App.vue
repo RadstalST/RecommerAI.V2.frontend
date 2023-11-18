@@ -8,9 +8,17 @@ import NavBar from './components/NavBar.vue';
   <header>
     <NavBar/>
   </header>
-  <RouterView />
+  <div class="center-container">
+    <RouterView />
+  </div>
+
 </template>
 
 <style scoped>
-
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 </style>

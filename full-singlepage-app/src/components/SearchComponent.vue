@@ -1,25 +1,23 @@
 <template>
-  <div>
-    <!-- Search Row -->
-    <div v-if="!showSummaryOnly">
-      <div class="d-flex flex-row justify-content-between align-items-center">
-        <div class="p-2">
-          <h5>I want to find</h5>
-        </div>
-        <div  class="d-flex p-2">
-          <input v-model="localSearchInput" @input="updateSearch" type="text" class="form-control p-2" placeholder="Enter what you're looking for..." :disabled="isDisabled" > 
-        </div>
+  <!-- Search Row -->
+  <div v-if="!showSummaryOnly" class = "w-full">
+    <div class="d-flex flex-row justify-center align-items-center">
+      <div class="p-2">
+        <h5>I want to find</h5>
       </div>
-      <div v-if="hasOptions">
-        <OptionsComponent :searchInput="modelValue.searchInput" @updateOptions="updateSummary" />
+      <div  class="d-flex p-2">
+        <input v-model="localSearchInput" @input="updateSearch" type="text" class="form-control p-2" placeholder="Enter what you're looking for..." :disabled="isDisabled" > 
       </div>
     </div>
-    <!-- Summary Sentence -->
-    <div v-if="hasOptions" id='summary-sentence' class="mb-3 text-center">
-      I want to find <b>{{ modelValue.searchInput }}</b><span v-if="summary"> that has <b> {{ modelValue.summary }} </b></span>.
+    <div v-if="hasOptions" class="option">
+      <OptionsComponent :searchInput="modelValue.searchInput" @updateOptions="updateSummary" />
     </div>
-
   </div>
+  <!-- Summary Sentence -->
+  <div v-if="hasOptions" id='summary-sentence' class="mb-3 text-center">
+    I want to find <b>{{ modelValue.searchInput }}</b><span v-if="summary"> that has <b> {{ modelValue.summary }} </b></span>.
+  </div>
+
 </template>
 
 
@@ -98,3 +96,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.option {
+  margin-top: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+}
+</style>

@@ -13,20 +13,30 @@ body {
               radial-gradient(circle 400px at 90% 100%,  #8D69E15f 20%, #EECAFF7f 50%,   transparent 100%),
               #F4F4F4;
   background-attachment: fixed; /* Makes the background fixed during scroll */
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-}
-body {
   display: flex;
   place-items: center;
 }
 
+.content {
+  max-width: 800px;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: auto; 
+  margin: auto;
+  padding-top: 100px;
+  width: 100%;
+}
 
+#app {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+h1.logo{
+  font-size: 2.5em;
+}
 
 /* Custom styles for a Bootstrap theme using #643ADA as the primary color */
 
@@ -41,7 +51,10 @@ body {
   --bs-bg-opacity:rgba(101, 59, 217, 0.175);
   --bs-focus-ring-color: rgba(101, 59, 217, 0.175);
 }
-
+a:hover{
+  color:var(--bs-primary) !important;
+  background-color: inherit !important;
+}
 /* Buttons */
 .btn-primary {
   --bs-btn-color: #fff;
@@ -69,6 +82,20 @@ body {
 .btn-primary.disabled, .btn-primary:disabled {
   background-color: lighten(var(--bs-primary), 25%);
   border-color: lighten(var(--bs-primary), 25%);
+}
+
+.btn-secondary {
+  --bs-btn-color: #232323;
+  --bs-btn-bg: #bbb;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #888;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #aaa;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #888;
+  background-color: #bbb;
 }
 
 .card{

@@ -1,12 +1,12 @@
 <template>
-
-  <div class="container">
+  <div class="content d-flex flex-column">
     <!-- Rest of your App.vue template -->
-    <header class="text-center mb-4">
-      <h1 class="text-center mb-5">Recommer.AI</h1>
-    </header>
-    
-    <SearchComponent v-model="searchValues" ref="searchComponentRef"
+    <div class = "row flex-column">
+      <h1 class="text-center mb-5 logo">Recommer.AI</h1>
+    </div>
+    <SearchComponent
+      v-model="searchValues"
+      ref="searchComponentRef"
       :isDisabled="isDisabled"
       :hasOptions="hasOptions"
       :isSearchInitiated="isSearchInitiated"
@@ -15,21 +15,27 @@
 
     <!-- Results Component -->
     <div v-if="showResults">
-      <ResultComponent 
-        :products="searchResults"
-        :searchValues="searchValues"
-      />
+      <ResultComponent :products="searchResults" :searchValues="searchValues" />
     </div>
- 
+
     <!-- Buttons -->
     <div class="row my-3">
       <div class="col text-center">
-        <button v-if="!showResults" @click="hasOptions ? searchAgain() : navigateToOptions()" class="btn btn-primary m-2">Search</button>
-        <button v-if="hasOptions" @click="resetSearch" class="btn btn-secondary m-2" type="reset">Reset</button>
+        <button
+          v-if="!showResults"
+          @click="hasOptions ? searchAgain() : navigateToOptions()"
+          class="btn btn-primary m-2"
+        >
+          Search
+        </button>
+        <button v-if="hasOptions" @click="resetSearch" class="btn btn-secondary m-2" type="reset">
+          Reset
+        </button>
       </div>
     </div>
   </div>
 </template>
+
 
 
 
