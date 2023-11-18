@@ -12,12 +12,12 @@ import { RouterLink, RouterView } from 'vue-router'
             </router-link>
             <div class="navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto justify-content-end flex-nowrap">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <router-link to="/" class="nav-link">Search</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/history" class="nav-link">History</router-link>
-                    </li>
+                    </li> -->
                     <li class="nav-item" v-if="isLogin()">
                         <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
                     </li>

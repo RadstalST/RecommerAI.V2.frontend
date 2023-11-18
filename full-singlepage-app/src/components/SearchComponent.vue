@@ -10,7 +10,7 @@
       </div>
     </div>
     <div v-if="hasOptions" class="option">
-      <OptionsComponent :searchInput="modelValue.searchInput" @updateOptions="updateSummary" @productType="updateProductType" />
+      <OptionsComponent :searchInput="modelValue.searchInput" @updateOptions="updateSummary" @updateProductType="updateProductType" />
     </div>
   </div>
   <!-- Summary Sentence -->
@@ -22,7 +22,7 @@
 
 
 <script lang="ts">
-import { defineProps, toRefs, ref, watch, useContext } from 'vue';
+import { defineProps, toRefs, ref, watch} from 'vue';
 import OptionsComponent from './OptionsComponent.vue';
 
 
@@ -32,8 +32,8 @@ export default {
   },
   props: {
     modelValue: {
-      type: Object as PropType<{ searchInput: string; summary: string; productType: string  }>,
-      default: () => ({ searchInput: '', summary: '', productType: ''  })
+      type: Object as PropType<{ searchInput: string; summary: string, product_type: string }>,
+      default: () => ({ searchInput: '', summary: '', product_type: '' })
     },
     searchInput: String,
     isDisabled: Boolean,
@@ -48,8 +48,7 @@ export default {
     const products = ref([]);
     const localSearchInput = ref(props.modelValue.searchInput || '');
     const summary = ref(props.modelValue.summary || '');
-    const productType = ref(props.modelValue.productType || '');
-
+    const productType = ref(props.modelValue.product_type || '');
     // Watch for changes to the prop and update the local state
     watch(
       () => props.searchInput,
@@ -61,14 +60,14 @@ export default {
     );
 
     // Emit initial values in case they are not empty
-    emit('update:modelValue', { searchInput: localSearchInput.value, summary: summary.value, productType: productType.value });
+    emit('update:modelValue', { searchInput: localSearchInput.value, summary: summary.value, product_type: productType.value });
 
     // Whenever the local search input changes, emit the updated object
     watch(localSearchInput, (newValue) => {
-      emit('update:modelValue', { searchInput: newValue, summary: summary.value, productType: productType.value });
+      emit('update:modelValue', { searchInput: newValue, summary: summary.value, product_type: productType.value });
     });
 
-    // Watchers for localSearchInput, summary, and productType
+    // Watchers for localSearchInput and summary
     watch(localSearchInput, (newVal) => {
       emit('update:modelValue', { ...props.modelValue, searchInput: newVal });
     });
@@ -76,33 +75,28 @@ export default {
     watch(summary, (newVal) => {
       emit('update:modelValue', { ...props.modelValue, summary: newVal });
     });
-
-    watch(productType, (newVal) => {
-      emit('update:modelValue', { ...props.modelValue, productType: newVal });
-    });
-
+    
     const updateSummary = (options) => {
       summary.value = `${options}`;
     };
-    const updateProductType = (type) => {
-      productType.value = type;
+    const updateProductType = (types) => {
+      productType.value = `${types}`;
     };
     const clearSearch = () => {
       summary.value = ''; // Reset summary
       localSearchInput.value = ''; // Reset local input
-      productType.value = ''; // Reset productType
+      productType.value = '';
       // Also, if you are emitting an update to the parent, do it here.
-      emit('update:modelValue', { searchInput: '', summary: '', productType: '' });
+      emit('update:modelValue', { searchInput: '', summary: '', product_type: '' });
     };
-
 
 
     return {
       summary,
       updateSummary,
+      updateProductType,
       clearSearch,
-      localSearchInput,
-      updateProductType
+      localSearchInput
     };
   }
 }

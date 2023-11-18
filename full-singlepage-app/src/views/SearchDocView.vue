@@ -41,13 +41,13 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import SearchComponent from '../components/SearchComponent.vue';
 import ResultComponent from '../components/ResultsComponent.vue';
 
-const searchValues = ref({ searchInput: '', summary: '' });
+const searchValues = ref({ searchInput: '', summary: '', product_type: '' });
 const isDisabled = ref(false);
 const isSearchInitiated = ref(false);
 const hasOptions = ref(false);
@@ -71,7 +71,7 @@ const navigateToOptions = () => {
 };
 
 const resetSearch = () => {
-  searchValues.value = { searchInput: '', summary: '' };
+  searchValues.value = { searchInput: '', summary: '', product_type: '' };
   isDisabled.value = false;
   hasOptions.value = false;
   isSearchInitiated.value = false;
@@ -105,9 +105,4 @@ const searchAgain = () => {
     });
   */
 };
-
 </script>
-
-<style scope>
-
-</style>
