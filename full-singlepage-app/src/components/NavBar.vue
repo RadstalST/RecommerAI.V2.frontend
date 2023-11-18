@@ -15,6 +15,9 @@ import { RouterLink, RouterView } from 'vue-router'
                     <li class="nav-item">
                         <router-link to="/" class="nav-link">Search</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/history" class="nav-link">History</router-link>
+                    </li>
                     <li class="nav-item" v-if="isLogin()">
                         <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
                     </li>
@@ -82,7 +85,7 @@ export default {
     left: 0;
     width: 100%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.7) !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .navbar-brand {
