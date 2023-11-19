@@ -6,7 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 
 <template>
-        <div class="m-8">
+        <div class="m-8 w-full">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -41,14 +41,14 @@ import { RouterLink, RouterView } from 'vue-router'
 
             <div class="mt-4">
                 <div class="d-flex justify-content-between">
-                    <button @click="loadDocuments" class="btn btn-primary">Refresh</button>
+                    <button @click="loadDocuments" class="btn btn-secondary">Refresh</button>
                     <div>
                         <button @click="previousPage" :disabled="currentPage === 1" class="btn btn-primary me-2" :class="{ 'disabled': currentPage === 1 }">Previous</button>
                         <span class="px-4 py-2">{{ currentPage }}</span>
-                        <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-primary" :class="{ 'disabled': currentPage === totalPages }">Next</button>
+                        <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-secondary" :class="{ 'disabled': currentPage === totalPages }">Next</button>
                     </div>
                     <!-- create button -->
-                    <button @click="handleCreateDoc"> add docs</button>
+                    <button class="btn btn btn-primary ml-1" @click="handleCreateDoc"> add docs</button>
                 </div>
             </div>
         </div>

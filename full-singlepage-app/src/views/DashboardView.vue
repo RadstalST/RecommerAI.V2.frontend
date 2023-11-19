@@ -23,9 +23,11 @@ if (localStorage.getItem('access_token') == null) {
         <h3>{{user}}</h3>
     </div>
 
-    <div class="row">
-        <div class="col-6"><PersonaComponent/></div>
-        <div class="col-6"></div>
+    <div class="row text-left w-full">
+        <div class="p-0">
+            <PersonaComponent/>
+        </div>
+        <div class="w-full"></div>
     </div>
 
     <SearchDocsTable/>

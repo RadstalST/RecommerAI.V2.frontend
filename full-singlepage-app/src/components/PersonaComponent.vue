@@ -5,10 +5,10 @@ import { RouterLink, RouterView } from 'vue-router'
 
 
 <template>
-    <div class="border-2 w-full">
+    <div class=" w-full">
         <button class="btn btn-primary" @click="handleCreateDoc">Create Persona</button>
-        <button class="btn btn-primary" @click="loadDocuments">Load Persona</button>
-        <input type="text" v-model="search" class="form-control" placeholder="Search documents">
+        <button class="btn  btn-secondary ml-2" @click="loadDocuments">Load Persona</button>
+        <input type="text" v-model="search" class="form-control  mt-2" placeholder="Search documents">
         <div v-if="loading">Loading...</div>
         <div v-if="error" class="text-danger">{{ error }}</div>
         <div v-for="doc in filteredDocs" :key="doc._id">

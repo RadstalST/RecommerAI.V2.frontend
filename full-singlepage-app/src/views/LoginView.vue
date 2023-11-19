@@ -77,7 +77,9 @@ export default {
                         //store token in local storage
                         localStorage.setItem('access_token', accessToken)
                         //redirect to dashboard
-                        this.$router.push('/dashboard')
+                        this.$router.push('/dashboard').then(() => {
+                            window.location.reload()
+                        });
                     } 
                     this.message = 'Login failed'
                     
