@@ -1,5 +1,31 @@
 <template>
+
   <div>
+    <div class="card recommend mb-4 ">
+      <div v-if="isLoading" class="loading-animation text-center">
+      <!-- Add your loading animation here -->
+          <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          <div>Loading Recommendation...</div>
+      </div>
+      <div v-else>
+        <div class="row g-0"> 
+          <div class="col-md-12">
+            <h3 class="mb-3 text-center text-xl product-name">We recommend <b>{{ recommendation.productname }}</b>.</h3>
+          </div>
+        </div>
+        <div class="row details">
+          <div class="col-md-6">
+            <h3 class="card-title">Proposal</h3> 
+            <p>{{ recommendation.suggestions }}</p>
+          </div>
+          <div class="col-md-6">
+            <h3 class="card-title">Comparison</h3> 
+            <p>{{ recommendation.comparison }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div v-for="product in products" :key="product.id" class="card mb-4">
       <div class="row g-0">
         <!-- Product Image & Name -->
@@ -7,23 +33,23 @@
           <img :src="product.image" class="img-fluid product-img" alt="...">
           <div class="card-body">
             <h6 class="card-title">{{ product.name }}</h6>
-            <p class="card-text">{{ product.details.detail }}</p>
+            <p v-if="product.details" class="card-text">{{ product.details.detail }}</p>
           </div>
         </div>
 
         <!-- Comparison (Pros/Cons) -->
         <div class="col-md-4 pros-cons-list">
           <div class="card-body">
-            <div class="row">
+            <div v-if="product.details.pros" class="row">
               <h4 class="card-title">Pros</h4>
               <ul class="list-group list-group-flush">
-                <li v-for="(pro, index) in product.comparison.pros.pros" :key="index" class="list-group-item">- {{ pro }}</li>
+                <li v-for="(pro, index) in product.details.pros" :key="index" class="list-group-item">- {{ pro }}</li>
               </ul>
             </div>
-            <div class="row">
+            <div v-if="product.details.cons" class="row">
               <h4 class="card-title">Cons</h4>
               <ul class="list-group list-group-flush">
-                <li v-for="(con, index) in product.comparison.cons.cons" :key="index" class="list-group-item">- {{ con }}</li>
+                <li v-for="(con, index) in product.details.cons" :key="index" class="list-group-item">- {{ con }}</li>
               </ul>
             </div>
           </div>
@@ -33,9 +59,9 @@
         <div class="col-md-3 sales-channel">
           <div class="card-body">
             <h4 class="card-title">Sales Channel</h4>
-            <ul class="list-group list-group-flush sales-channel-list">
+            <ul v-if="product.salesChannel" class="list-group list-group-flush sales-channel-list">
               <li v-for="channel in product.salesChannel.saleslist" :key="index" class="list-group-item d-flex justify-content-between align-items-center">
-                <a :href="channel.link" class="channel-link">
+                <a :href="channel.link" class="channel-link d-flex flex-column">
                   <span class="channel-name">{{ channel.name }}</span>
                   <span class="channel-price">{{ channel.price }}</span>
                 </a>
@@ -52,7 +78,8 @@
 
 
 <script lang="ts">
-import { ref, watch, onMounted, toRefs } from 'vue';
+import { toRefs, ref, computed, watch, onMounted } from 'vue';
+import axios from 'axios'
 // import ProductDetails from './ProductDetails.vue';
 
 export default {
@@ -61,127 +88,101 @@ export default {
   // },
   props: {
     searchValues: {
-      type: Object as PropType<{ searchInput: string; summary: string }>,
-      default: () => ({ searchInput: '', summary: '' })
+      type: Object as PropType<{ searchInput: string; summary: string, product_type: string }>,
+      default: () => ({ searchInput: '', summary: '', product_type: '' }),
     },
+    recommendation: Object
   },
+
   setup(props) {
     const { searchValues } = toRefs(props);
-    // const products = ref([]);
+    const isLoading = ref(false);
+    const recommendation = ref({});
+    const pros = ref([]);
+    const cons = ref([]);
+    const products = ref([]);
 
-
-    // // Function to fetch products based on search input
-    // const fetchProducts = async () => {
-    //   try {
-    //     // API endpoint with query parameters from searchValues
-    //     const response = await fetch(`/api/products?search=${encodeURIComponent(searchValues.value.searchInput)}&summary=${encodeURIComponent(searchValues.value.summary)}`);
-    //     if (!response.ok) {
-    //       throw new Error(`HTTP error! status: ${response.status}`);
-    //     }
-    //     const data = await response.json();
-    //     products.value = data; // Assuming the API returns an array of products
-    //   } catch (error) {
-    //     console.error('Error fetching products:', error);
-    //   }
-    // };
-
-    // // Fetch products when the component mounts
-    // onMounted(fetchProducts);
-
-    // // Re-fetch products whenever searchValues changes
-    // watch(searchValues, fetchProducts);
     console.log('ResultComponent');
     console.log(searchValues.value);
-
-    const mockupData = [
-      {
-        "name": "Airpods Pro 2",
-        "image": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MTJV3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1694014871985",
-        "comparison": {
-          "pros": {
-            "name": "Airpods Pro 2",
-            "pros": [
-              "Up to 2x more Active Noise Cancellation",
-              "Transparency mode to hear the world around you",
-              "All-new Adaptive Audio intelligently tailors noise"
-            ]
-          },
-          "cons": {
-            "name": "Airpods Pro 2",
-            "cons": [
-              "Lack of EQ adjustments",
-              "User-reported issues",
-              "User-reported problems"
-            ]
-          }
-        },
-        "salesChannel": {"saleslist":[
-          {
-            "name":"Verizon",
-            "price":"$199.99",
-            "link":"https://www.verizon.com/products/apple-airpods-pro-2nd-generation?sku=sku5600070"
-          },{
-            "name":"CDW",
-            "price":"$301.99",
-            "link":"https://www.cdw.com/product/airpods-pro-2nd-generation-with-magsafe-case-usb-u2011c/7595937?cm_ven=acquirgy&cm_cat=google&cm_pla=NA-NA-Apple_HE&cm_ite=7595937"
-          },{
-            "name":"UScellular",
-            "price":"$249.99",
-            "link":"https://www.uscellular.com/accessories/apple-airpods-pro-2nd-generation-usb-c"
-          }
-        ]},
-        "details": {
-          "name": "AirPods Pro (2nd generation) with MagSafe Case (USB‐C)",
-          "detail": "The AirPods Pro 2nd generation is a product of Apple, priced around $199.99 to $301.99. It comes with a MagSafe Case and a USB-C. It has a high rating of 4.8 with about 9000 reviews. Key features include its compatibility with MagSafe and its high-quality sound performance."
+    
+    const fetchResult = async () => {
+      try {
+        if (localStorage.getItem('access_token') == null) {
+          return;
         }
-      },
-      {
-        "name": "Airpods Pro 2",
-        "image": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MTJV3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1694014871985",
-        "comparison": {
-          "pros": {
-            "name": "Airpods Pro 2",
-            "pros": [
-              "Up to 2x more Active Noise Cancellation",
-              "Transparency mode to hear the world around you",
-              "All-new Adaptive Audio intelligently tailors noise"
-            ]
+        // Construct the URL with the query parameter
+        const url = '/proxy/v2/AI/search/productinfodetail/';
+        isLoading.value = true;
+        console.log(url);
+        const response = await axios.get(url, {
+          params: {
+            searchid: 'item',
+            desire: searchValues.value.searchInput,
+            summary_desire: searchValues.value.summary,
+            product_type: searchValues.value.product_type,
           },
-          "cons": {
-            "name": "Airpods Pro 2",
-            "cons": [
-              "Lack of EQ adjustments",
-              "User-reported issues",
-              "User-reported problems"
-            ]
-          }
-        },
-        "salesChannel": {"saleslist":[
-          {
-            "name":"Verizon",
-            "price":"$199.99",
-            "link":"https://www.verizon.com/products/apple-airpods-pro-2nd-generation?sku=sku5600070"
-          },{
-            "name":"CDW",
-            "price":"$301.99",
-            "link":"https://www.cdw.com/product/airpods-pro-2nd-generation-with-magsafe-case-usb-u2011c/7595937?cm_ven=acquirgy&cm_cat=google&cm_pla=NA-NA-Apple_HE&cm_ite=7595937"
-          },{
-            "name":"UScellular",
-            "price":"$249.99",
-            "link":"https://www.uscellular.com/accessories/apple-airpods-pro-2nd-generation-usb-c"
-          }
-        ]},
-        "details": {
-          "name": "AirPods Pro (2nd generation) with MagSafe Case (USB‐C)",
-          "detail": "The AirPods Pro 2nd generation is a product of Apple, priced around $199.99 to $301.99. It comes with a MagSafe Case and a USB-C. It has a high rating of 4.8 with about 9000 reviews. Key features include its compatibility with MagSafe and its high-quality sound performance."
-        }
-      },
-    ];
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+            'Content-Type': 'application/json',
+          },
+        });
 
-    const products = ref(mockupData);
+        // Check if the response status is OK (2xx)
+        if (response.status >= 200 && response.status < 300) {
+          const data = response.data;
+          console.log(data);
+          recommendation.value = data.item.recommendation;
+
+          // Call another API for each product
+          let productlists = data.item.productlists.products;
+          for (const product of productlists) {
+            await callProductinfoAPI(product.name);
+          }
+        } else {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      } catch (error) {
+        console.error('Fetching options failed:', error);
+      } finally {
+        isLoading.value = false; // Set loading state to false
+      }
+    };
+
+    const callProductinfoAPI = async (product) => {
+      try {
+        // Construct the URL for the other API
+        const url = '/proxy/v2/AI/productinfo/productinfo/';
+        const response = await axios.get(url, {
+          params: {
+            productModel: product,
+          },
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+            'Content-Type': 'application/json',
+          },
+        });
+        // Process the response from the other API
+        // Add the fetched product data to the products array
+        let data = response.data;
+        products.value.push(data); // Push the data object into the products array
+        console.log(response.data);
+      } catch (error) {
+        console.error('Calling another API failed:', error);
+      }
+    };
+
+    // const products = ref(mockupData);
+    // const recommendation = ref(mockupRecommend.item.recommendation);
+
+    onMounted(async () => {
+      await fetchResult();
+      // Load the fetched data into products
+    });
 
     return {
-      products
+      products,
+      recommendation,
+      isLoading,
     };
   }
 }
@@ -210,7 +211,7 @@ export default {
 }
 
 .card{
-  font-size: 0.8em; 
+  font-size: 1em; 
   padding: 20px;
 }
 
@@ -238,8 +239,8 @@ export default {
 } 
 
 .card a.channel-link {
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
   width: 100%;
   padding-bottom: 10px;
   color: white;
@@ -252,11 +253,12 @@ export default {
 }
 
 .card .sales-channel .channel-link .channel-name {
-  text-align: left;
+  /* text-align: left; */
 }
 
 .card .sales-channel .channel-link .channel-price {
-  text-align: right;
+  /* text-align: right; */
+  font-weight: bold;
 }
 
 
@@ -289,5 +291,31 @@ export default {
 
 .list-group-item a {
   text-decoration: none; /* Remove underline from links */
+}
+
+.card.recommend{
+  background-color: rgba(101, 59, 217, .65);;
+  padding: 2em;
+  border-radius: 10px;
+  color: white;
+}
+
+.card.recommend .product-name{
+  margin: 20px 0;
+}
+.card.recommend .details{
+  border:1px white;
+}
+.card.recommend .loading-animation {
+  /* Add your loading animation styles here */
+  color:white;
+}
+.lds-grid div {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  animation: lds-grid 1.2s linear infinite;
 }
 </style>

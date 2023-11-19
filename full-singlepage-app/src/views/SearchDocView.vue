@@ -1,10 +1,6 @@
 <template>
-  <div class="d-flex flex-column h-full">
+  <div class="flex flex-col items-center justify-center ">
     <!-- Rest of your App.vue template -->
-
-    <div v-if="showResults" class="row recommend">
-      <h3 class="text-center mb-5 recommend">We recommend</h3>
-    </div>
 
     <!-- Pass the productType ref as a prop to SearchComponent -->
     <SearchComponent

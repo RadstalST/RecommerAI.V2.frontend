@@ -81,6 +81,7 @@ export default {
     };
     const updateProductType = (types) => {
       productType.value = `${types}`;
+      emit('update:modelValue', { ...props.modelValue, product_type: types });
     };
     const clearSearch = () => {
       summary.value = ''; // Reset summary

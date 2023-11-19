@@ -46,18 +46,33 @@ export default {
     const product_type = ref('');
     const optionRows = ref([]);
     const isLoading = ref(false); 
-    console.log(props.searchInput);
 
     // const fetchOptions = () => {
     //   try {
-    //     options.value = ['sample1', 'sample2', 'sample3'];
-    //     product_type.value = "sample_product_type";
-    //     updateOptionRows();
+    //     isLoading.value = true;
+    //     setTimeout(() => {
+    //       options.value = ["Over-Ear Headphones",
+    //         "On-Ear Headphones",
+    //         "In-Ear Headphones",
+    //         "Bluetooth Headphones",
+    //         "Noise-Canceling Headphones",
+    //         "Wireless Headphones",
+    //         "Wired Headphones",
+    //         "Gaming Headphones",
+    //         "Studio Headphones",
+    //         "Sports Headphones",
+    //         "Bass Headphones",
+    //         "Lightweight Headphones",
+    //         "DJ Headphones",
+    //         "Surround Sound Headphones",
+    //         "High-Resolution Audio Headphones"];
+    //       product_type.value = "sample_product_type";
+    //       updateOptionRows();
+    //       isLoading.value = false; // Set loading state to false
+    //       emitProductType();
+    //     }, 1000);
     //   } catch (error) {
     //     console.error('Fetching options failed:', error);
-    //   } finally {
-    //     isLoading.value = false; // Set loading state to false
-    //     emitProductType();
     //   }
     // };
 
@@ -68,6 +83,7 @@ export default {
         }
         // Construct the URL with the query parameter
         const url = '/proxy/v2/AI/search/variations/';
+        console.log(url);
         isLoading.value = true;
         const response = await axios.get(url, {
           params: {
@@ -96,6 +112,7 @@ export default {
         console.error('Fetching options failed:', error);
       } finally {
         isLoading.value = false; // Set loading state to false
+        emitProductType();
       }
     };
 

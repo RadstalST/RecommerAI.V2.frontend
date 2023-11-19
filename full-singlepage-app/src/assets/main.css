@@ -159,9 +159,6 @@ a:hover, a:focus {
 }
 
 
-.loading-animation {
-  /* Add your loading animation styles here */
-}
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
