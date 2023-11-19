@@ -33,7 +33,7 @@
           <img :src="product.image" class="img-fluid product-img" alt="...">
           <div class="card-body">
             <h6 class="card-title">{{ product.name }}</h6>
-            <p class="card-text">{{ product.details.detail }}</p>
+            <p v-if="product.details" class="card-text">{{ product.details.detail }}</p>
           </div>
         </div>
 
@@ -137,7 +137,6 @@ export default {
           let productlists = data.item.productlists.products;
           for (const product of productlists) {
             await callProductinfoAPI(product.name);
-            break;
           }
         } else {
           throw new Error(`HTTP error! status: ${response.status}`);
